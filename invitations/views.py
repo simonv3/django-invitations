@@ -50,7 +50,7 @@ class AcceptInvite(SingleObjectMixin, View):
         invitation.accepted = True
         invitation.save()
         get_adapter().stash_verified_email(self.request, invitation.email)
-        
+
         signals.invite_accepted.send(sender=self.request.user.__class__,
                                      request=self.request,
                                      email=invitation.email)

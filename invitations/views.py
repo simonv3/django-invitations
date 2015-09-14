@@ -1,3 +1,4 @@
+from django.core import urlresolvers
 from django.views.generic import FormView, View
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib import messages
@@ -60,7 +61,9 @@ class AcceptInvite(SingleObjectMixin, View):
                                   'invitations/messages/invite_accepted.txt',
                                   {'email': invitation.email})
 
-        return redirect(app_settings.SIGNUP_REDIRECT)
+        signup_redirect = urlresolvers.reverse(app_settings.SIGNUP_REDIRECT)
+        add_email_GET = signup_redirect + '?email=' + invitation.email
+        return redirect(add_email_GET)
 
     def get_object(self, queryset=None):
         if queryset is None:
